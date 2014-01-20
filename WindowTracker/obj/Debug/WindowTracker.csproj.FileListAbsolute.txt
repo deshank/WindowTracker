@@ -1,0 +1,6 @@
+c:\users\user\documents\visual studio 2012\Projects\WindowTracker\WindowTracker\bin\Debug\WindowTracker.exe.config
+c:\users\user\documents\visual studio 2012\Projects\WindowTracker\WindowTracker\bin\Debug\WindowTracker.exe
+c:\users\user\documents\visual studio 2012\Projects\WindowTracker\WindowTracker\bin\Debug\WindowTracker.pdb
+c:\users\user\documents\visual studio 2012\Projects\WindowTracker\WindowTracker\obj\Debug\WindowTracker.csprojResolveAssemblyReference.cache
+c:\users\user\documents\visual studio 2012\Projects\WindowTracker\WindowTracker\obj\Debug\WindowTracker.exe
+c:\users\user\documents\visual studio 2012\Projects\WindowTracker\WindowTracker\obj\Debug\WindowTracker.pdb
