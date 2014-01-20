@@ -1,23 +1,32 @@
-from subprocess import PIPE, Popen
-import time, datetime
+#!/usr/bin/env python
 
-title = ''
-root_check = ''
+from subprocess import PIPE, Popen
+import time, datetime, re
+
+def get_active_window_title():
+    state = str(datetime.datetime.now())
+    root = Popen(['xprop', '-root', '_NET_ACTIVE_WINDOW'], stdout=PIPE)
+
+    for line in root.stdout:
+        m = re.search('^_NET_ACTIVE_WINDOW.* ([\w]+)$', line)
+        if m != None:
+            id_ = m.group(1)
+            id_w = Popen(['xprop', '-id', id_, 'WM_NAME'], stdout=PIPE)
+            name_w = Popen(['xprop', '-id', id_, 'WM_CLASS'], stdout=PIPE)
+            break
+    if name_w != None:
+        for line in name_w.stdout:
+            match = re.match("WM_CLASS\(\w+\) = (?P<name>.+)$", line)
+            if match != None:
+                state = state + " " + match.group('name')
+
+    if id_w != None:
+        for line in id_w.stdout:
+            match = re.match("WM_NAME\(\w+\) = (?P<name>.+)$", line)
+            if match != None:
+                state += " " + match.group('name')
+    return state
 
 while True:
     time.sleep(5)
-    root = Popen(['xprop', '-root'],  stdout=PIPE)
-
-    if root.stdout != root_check:
-        root_check = root.stdout
-
-        for i in root.stdout:
-            if '_NET_ACTIVE_WINDOW(WINDOW):' in i:
-                id_ = i.split()[4]
-                id_w = Popen(['xprop', '-id', id_], stdout=PIPE)
-
-        for j in id_w.stdout:
-            if 'WM_ICON_NAME(STRING)' in j:
-                #if title != j.split()[2:]:
-                title = j.split()[2:]
-                print "%s %s" % (datetime.datetime.now()," ".join(title))
+    print get_active_window_title()
