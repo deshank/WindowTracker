@@ -15,7 +15,7 @@ namespace WindowTracker
         [DllImport("user32.dll")]
         static extern int GetWindowText(IntPtr hWnd, StringBuilder text, int count);
 
-        public string GetActiveWindowTitle()
+        private string GetActiveWindowTitle()
         {
             const int nChars = 256;
             StringBuilder Buff = new StringBuilder(nChars);
@@ -29,6 +29,17 @@ namespace WindowTracker
             return null;
         }
 
+        private string GetUserName()
+        { 
+            return System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+            //return Environment.UserName;
+        }
+
+        private string GetLocalIPAddress()
+        {
+            return null;
+        }
+
         static void Main(string[] args)
         {
             Program a = new Program();
@@ -36,6 +47,7 @@ namespace WindowTracker
             while (true)
             {
                 Console.WriteLine(DateTime.Now + " " + a.GetActiveWindowTitle());
+                //Console.WriteLine(a.GetUserName());
                 System.Threading.Thread.Sleep(5000);
             }
             
