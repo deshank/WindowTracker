@@ -2,6 +2,9 @@
 
 from subprocess import PIPE, Popen
 import time, datetime, re
+import urllib, urllib2
+
+url = "http://192.168.111.171:8080/log/abc"
 
 def get_active_window_title():
     state = str(datetime.datetime.now())
@@ -29,4 +32,13 @@ def get_active_window_title():
 
 while True:
     time.sleep(5)
-    print get_active_window_title()
+    data = urllib.urlencode({"data": get_active_window_title()})
+    req = urllib2.Request(url, data)
+    try:
+        response = urllib2.urlopen(req)
+    except urllib2.URLError, e:
+        print e.reason
+    except urllib2.HTTPError, e:
+        print e.code
+    else:
+        print response.read()

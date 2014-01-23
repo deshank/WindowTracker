@@ -1,4 +1,5 @@
 var restify = require('restify');
+var fs = require('fs');
 
 function respond(req, res, next) {
   res.send(req.params.id);
@@ -9,10 +10,20 @@ function processRequest(req, res, next) {
   clientIP = function(req) {
   	return (req.headers['x-forwarded-for'] || '').split(',')[0] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress;
   }
-  console.log(clientIP(req));
-  console.log(req.params);
-  //console.log(req.body);
-  res.send(200);
+  send200 = function(res) {
+    res.send(200);
+  }
+  
+  var a = "abcdefg";
+  fs.appendFile('../logs/'+clientIP(req), req.params.data+'\n', function(err){
+    if (err)
+      res.send(500+" File Error");
+    else
+      res.send(200+" Data received"); 
+    });
+  //console.log(clientIP(req));
+  //console.log(req.params);
+  //res.send(200+" - Data Received");
   return next();
 }
 
