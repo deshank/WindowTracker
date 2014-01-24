@@ -83,12 +83,12 @@ namespace WindowTracker
             {
                 string json = new JavaScriptSerializer().Serialize(new
                 {
-                    data = a.GetActiveWindowTitle()
+                    data = DateTime.Now + " " + a.GetActiveWindowTitle(),
                 });
+                //Console.WriteLine(json);
                 Console.WriteLine(a.SendDATA(json));
                 System.Threading.Thread.Sleep(5000);
             }
-            
         }
     }
 }
