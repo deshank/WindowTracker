@@ -18,7 +18,7 @@ namespace WindowTracker
         [DllImport("user32.dll")]
         static extern int GetWindowText(IntPtr hWnd, StringBuilder text, int count);
 
-        private string URL = "http://192.168.111.171:8080/log/abc";
+        private string URL = "http://192.168.111.173:8080/log/abc";
 
         private string GetActiveWindowTitle()
         {
@@ -39,17 +39,17 @@ namespace WindowTracker
             try
             {
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create(URL);
-                httpWebRequest.ContentType = "text/json";
+                httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "POST";
 
                 using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
                 {
                     streamWriter.Write(json);
-                    streamWriter.Flush();
+                    //streamWriter.Flush();
                     streamWriter.Close();
 
                     var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-                    Console.WriteLine(httpResponse);
+                    //Console.WriteLine(json);
                     using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
                     {
                         var result = streamReader.ReadToEnd();
@@ -81,6 +81,7 @@ namespace WindowTracker
 
             while (true)
             {
+                //string json = "{\"user\":\"test\"," + "\"password\":\"bla\"}";
                 string json = new JavaScriptSerializer().Serialize(new
                 {
                     data = DateTime.Now + " " + a.GetActiveWindowTitle(),
