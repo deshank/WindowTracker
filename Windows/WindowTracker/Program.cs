@@ -45,11 +45,11 @@ namespace WindowTracker
                 using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
                 {
                     streamWriter.Write(json);
-                    //streamWriter.Flush();
+                    streamWriter.Flush();
                     streamWriter.Close();
-
+                    Console.WriteLine(json);
                     var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-                    //Console.WriteLine(json);
+                    
                     using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
                     {
                         var result = streamReader.ReadToEnd();
@@ -59,8 +59,8 @@ namespace WindowTracker
             }
             catch (WebException ex)
             {
-                //return ex.ToString();
-                return "Exception Encountered";
+                return ex.ToString();
+                //return "Exception Encountered";
             }
         }
 
@@ -81,10 +81,11 @@ namespace WindowTracker
 
             while (true)
             {
-                //string json = "{\"user\":\"test\"," + "\"password\":\"bla\"}";
+                //string windowTitle = a.GetActiveWindowTitle();
+                //string json = "{\"data\":\"" + DateTime.Now + " " + windowTitle + "\"}";
                 string json = new JavaScriptSerializer().Serialize(new
                 {
-                    data = DateTime.Now + " " + a.GetActiveWindowTitle(),
+                    data = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss") + " " + a.GetActiveWindowTitle(),
                 });
                 //Console.WriteLine(json);
                 Console.WriteLine(a.SendDATA(json));
